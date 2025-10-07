@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background: #181818; color: #f4f4f4; overflow-x: hidden; }
-        
+
         /* Header und Glow-Effekt */
         header {
             background: #111;
@@ -114,17 +114,19 @@
             <a href="#">Schule und Berufliche Laufbahn</a>
             <a href="#">Kontakt</a>
         </nav>
-        <p>Präsentation meiner persönlichen Fähigkeiten & Projekte</p>
     </header>
 
     <main>
+        <!-- Über mich -->
         <section>
             <div class="section-inner">
                 <h2>Über mich</h2>
+                <p style="color:#f4f4f4; font-weight:bold;">Präsentation meiner persönlichen Fähigkeiten & Projekte</p>
                 <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten. <br>Ich habe nur grundlegende Kenntnisse in Python, C und C++.<br>HTML lerne ich gerade erst. <br>Willkommen auf meiner persönlichen Website, auf der ich meine Fähigkeiten und Erfolge teile.</p>
             </div>
         </section>
 
+        <!-- Fähigkeiten -->
         <section>
             <div class="section-inner">
                 <h2>Fähigkeiten</h2>
@@ -162,6 +164,7 @@
             </div>
         </section>
 
+        <!-- Projekte -->
         <section>
             <div class="section-inner">
                 <h2>Projekte</h2>
@@ -172,6 +175,7 @@
             </div>
         </section>
 
+        <!-- Schule & Beruf -->
         <section>
             <div class="section-inner">
                 <h2>Schule und Berufliche Laufbahn</h2>
@@ -196,6 +200,7 @@
             </div>
         </section>
 
+        <!-- Kontakt -->
         <section>
             <div class="section-inner">
                 <h2>Kontakt</h2>
@@ -244,7 +249,7 @@
                 const inner = sec.querySelector('.section-inner');
                 if (i === idx) {
                     sec.classList.add('active');
-                    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    window.scrollTo({ top: 0, behavior: 'auto' }); // immer oben
                     if (inner) {
                         inner.classList.remove('animate');
                         void inner.offsetWidth;
@@ -272,22 +277,18 @@
 
         showTab(0);
 
-        // Sticky Navbar Scroll Effekt (verstecken beim Runterscrollen, zeigen beim Hochscrollen)
         window.addEventListener('scroll', function() {
             const currentScroll = window.pageYOffset;
             if (currentScroll > lastScroll) {
-                // Runterscrollen → ausblenden
                 header.style.top = "-80px";
                 navbar.style.top = "-50px";
             } else {
-                // Hochscrollen → einblenden
                 header.style.top = "0";
                 navbar.style.top = "0";
             }
             lastScroll = currentScroll <= 0 ? 0 : currentScroll;
         });
 
-        // Kontaktformular
         const kontaktForm = document.getElementById("kontaktForm");
         kontaktForm.addEventListener("submit", function(e) {
             e.preventDefault();
@@ -321,14 +322,12 @@
             window.location.href = mailtoLink;
         });
 
-        // Zurück-Button
         document.getElementById("zurueckBtn").addEventListener("click", function() {
             tabs[0].click();
             document.getElementById("bestaetigung").style.display = "none";
             kontaktForm.style.display = "block";
             kontaktForm.reset();
         });
-
     });
     </script>
 </body>
