@@ -4,163 +4,88 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alexander Media</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #181818;
-      color: #f4f4f4;
-      overflow-x: hidden;
-    }
+    body { background:#181818; color:#f4f4f4; font-family: Arial, sans-serif; }
+    header { background:#111; color:#fff; padding:1.5em 0 0.5em; text-align:center; }
+    .nav-tabs { justify-content:center; background:#222; border-bottom:2px solid #b30000; }
+    .nav-tabs .nav-link { color:#fff; font-weight:bold; border:none; border-radius:4px 4px 0 0; }
+    .nav-tabs .nav-link.active, .nav-tabs .nav-link:hover { background:#b30000; color:#fff; }
+    .tab-content { background:#222; max-width:800px; margin:2em auto; padding:2em; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2); }
+    h2 { color:#b30000; }
+    .skills { display:flex; flex-wrap:wrap; gap:1em; }
+    .skill-card { background:#181818; padding:1em; border-radius:6px; flex:1 1 200px; border:1px solid #b30000; }
+    footer { text-align:center; padding:1em; background:#111; color:#888; }
 
-    header {
-      background: #111;
-      text-align: center;
-      padding: 2em 1em;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Parallax effect for header background */
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 120%;
-      background: url('images/header-bg.jpg') center/cover fixed;
-      z-index: -1;
-      transform: translateY(0);
-      transition: transform 0.4s ease-out;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0.5em 1em;
-      position: relative;
-    }
-
-    /* Smooth underline effect */
-    nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0%;
-      height: 2px;
-      background: #b30000;
-      transition: width 0.3s ease;
-    }
-
-    nav a:hover::after, nav a.active::after {
-      width: 100%;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 2em auto;
-      padding: 2em;
-      background: #222;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(179,0,0,0.25);
-    }
-
-    .fade-section {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease-out;
-    }
-
-    .fade-section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .parallax {
-      background-attachment: fixed;
-      background-size: cover;
-      background-position: center;
-      height: 300px;
-      margin: 2em 0;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(179,0,0,0.3);
-    }
-
-    footer {
-      background: #111;
-      color: #888;
-      text-align: center;
-      padding: 1em;
-      margin-top: 2em;
-    }
+    /* Fade/slide animation */
+    .fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.show { opacity:1; transform:translateY(0); }
   </style>
 </head>
 <body>
   <header>
     <h1>Alexander Media</h1>
-    <nav class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="#ueber">Über mich</a>
-      <a href="#skills">Fähigkeiten</a>
-      <a href="#projekte">Projekte</a>
-      <a href="#laufbahn">Laufbahn</a>
-      <a href="#kontakt">Kontakt</a>
-    </nav>
+    <p>Präsentation meiner persönlichen Fähigkeiten & Projekte</p>
   </header>
 
-  <main>
-    <section id="ueber" class="fade-section">
+  <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#ueber">Über mich</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#skills">Fähigkeiten</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#projekte">Projekte</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#laufbahn">Schule & Laufbahn</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#kontakt">Kontakt</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active fade-in" id="ueber">
       <h2>Über mich</h2>
-      <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten. Willkommen auf meiner Website!</p>
-    </section>
+      <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten. Ich habe nur grundlegende Kenntnisse in Python, C und C++. HTML lerne ich gerade erst.</p>
+    </div>
 
-    <div class="parallax" style="background-image:url('images/parallax1.jpg');"></div>
-
-    <section id="skills" class="fade-section">
+    <div class="tab-pane fade fade-in" id="skills">
       <h2>Fähigkeiten</h2>
-      <p>Webentwicklung, Programmierung, Medienproduktion und Design.</p>
-    </section>
+      <div class="skills">
+        <div class="skill-card"><strong>Webentwicklung</strong><ul><li>HTML (Anfänger)</li><li>CSS, JavaScript (Anfänger)</li></ul></div>
+        <div class="skill-card"><strong>Programmierung</strong><ul><li>Python</li><li>C</li><li>C++</li></ul></div>
+        <div class="skill-card"><strong>Medienproduktion</strong><ul><li>Videobearbeitung</li><li>Fotografie</li></ul></div>
+        <div class="skill-card"><strong>Grafik/Videodesign</strong><ul><li>Adobe Premiere Pro</li><li>DaVinci Resolve</li></ul></div>
+      </div>
+    </div>
 
-    <div class="parallax" style="background-image:url('images/parallax2.jpg');"></div>
-
-    <section id="projekte" class="fade-section">
+    <div class="tab-pane fade fade-in" id="projekte">
       <h2>Projekte</h2>
-      <p>Portfolio-Website, YouTube-Kanäle, Videoproduktion.</p>
-    </section>
+      <ul>
+        <li><strong>Portfolio-Website:</strong> Persönliche Website zur Präsentation meiner Arbeiten.</li>
+        <li><strong>Youtube:</strong> Videoaufnahmen & Schnitt für MotoTC und TCG.</li>
+      </ul>
+    </div>
 
-    <div class="parallax" style="background-image:url('images/parallax3.jpg');"></div>
+    <div class="tab-pane fade fade-in" id="laufbahn">
+      <h2>Schule und Berufliche Laufbahn</h2>
+      <ul>
+        <li><strong>HTL1 Lastenstraße:</strong> Mechatronik, Matura.</li>
+        <li><strong>FH Kärnten:</strong> Ein Semester Systems-Engineering.</li>
+        <li><strong>Beruf:</strong> Seit 05.05.2025 Gewährleistungsarbeiten am ÖBB DML-CityJet.</li>
+      </ul>
+    </div>
 
-    <section id="kontakt" class="fade-section">
+    <div class="tab-pane fade fade-in" id="kontakt">
       <h2>Kontakt</h2>
-      <p>Alexander Media<br>E-Mail: <a href="mailto:alexander@example.com">alexander@example.com</a></p>
-    </section>
-  </main>
+      <p>Alexander Media<br>9073 Klagenfurt am Wörthersee<br>Tel.: <a href="tel:+43660">+43 660 *******</a><br>E-Mail: <a href="mailto:Alexander.*******@gmail.com">Alexander.*******@gmail.com</a></p>
+    </div>
+  </div>
 
-  <footer>
-    &copy; 2025 Alexander Media
-  </footer>
+  <footer>&copy; 2025 Alexander Media</footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Scroll-based fade-in
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('show');
       });
     }, { threshold: 0.2 });
 
-    document.querySelectorAll('.fade-section').forEach(section => {
-      observer.observe(section);
-    });
-
-    // Parallax scroll header movement
-    window.addEventListener('scroll', () => {
-      const headerBg = document.querySelector('header::before');
-    });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
