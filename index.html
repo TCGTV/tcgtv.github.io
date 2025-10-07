@@ -103,6 +103,41 @@
             justify-content: center;
             margin-bottom: 1em; /* Add padding below the widget */
         }
+
+        /* Responsive Design for Mobile Devices */
+        @media (max-width: 768px) {
+            body {
+                font-size: 90%; /* Slightly smaller font size */
+            }
+            main {
+                padding: 1em; /* Reduce padding */
+                box-shadow: none; /* Remove shadow for simplicity */
+            }
+            nav {
+                flex-wrap: wrap; /* Allow navigation items to wrap */
+                gap: 1em; /* Reduce gap between items */
+            }
+            nav a {
+                padding: 0.5em; /* Smaller padding for nav links */
+            }
+            .skills {
+                flex-direction: column; /* Stack skill cards vertically */
+            }
+            .skill-card {
+                flex: 1 1 auto; /* Allow cards to take full width */
+            }
+            form {
+                width: 100%; /* Make form take full width */
+                padding: 1em; /* Adjust padding */
+            }
+            .g-recaptcha {
+                margin-bottom: 1.5em; /* Add extra space below reCAPTCHA */
+            }
+            img {
+                max-width: 100%; /* Ensure images scale within the viewport */
+                height: auto; /* Maintain aspect ratio */
+            }
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -247,7 +282,7 @@
                     
                     <label for="email">E-Mail:</label><br>
                     <input type="email" id="email" name="email" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
-                    
+                     
                     <label for="message">Nachricht:</label><br>
                     <textarea id="message" name="message" rows="4" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"></textarea><br>
                     
