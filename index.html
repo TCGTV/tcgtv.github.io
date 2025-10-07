@@ -35,8 +35,67 @@
         .skill-card { background: #181818; padding: 1em; border-radius: 6px; flex: 1 1 200px; border: 1px solid #b30000;}
         footer { text-align: center; padding: 1em 0; color: #888; background: #111; margin-top: 2em;}
         a { color: #b30000; }
+
+        /* Navigation button hover effect (scale up) */
+        nav a { transform-origin: center top; transition: transform 180ms ease, box-shadow 180ms ease; }
+        nav a:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(179,0,0,0.25); }
+
+        /* Section fade/slide animation */
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Keep markup-driven show/hide but animate content when activated */
         section { display: none; }
         section.active { display: block; }
+        /* inner wrapper that animates when section becomes active */
+        .section-inner { opacity: 0; transform: translateY(12px); }
+        .section-inner.animate {
+            animation: fadeInUp 520ms ease both;
+        }
+
+        /* Stagger child elements so headings, lines, images and cards appear sequentially */
+        .section-inner > * {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        /* Default child animation (applied when parent gets .animate) */
+        .section-inner.animate > * {
+            animation: fadeInUp 520ms ease both;
+        }
+
+        /* Specific delays for common children to create a pleasant stagger */
+        .section-inner.animate > h2 { animation-delay: 120ms; }
+        .section-inner.animate > p { animation-delay: 220ms; }
+        .section-inner.animate > ul { animation-delay: 220ms; }
+        .section-inner.animate > div { animation-delay: 220ms; }
+
+        /* List item staggering (up to 6 visible items) */
+        .section-inner.animate ul li:nth-child(1) { animation: fadeInUp 520ms ease both; animation-delay: 260ms; }
+        .section-inner.animate ul li:nth-child(2) { animation: fadeInUp 520ms ease both; animation-delay: 340ms; }
+        .section-inner.animate ul li:nth-child(3) { animation: fadeInUp 520ms ease both; animation-delay: 420ms; }
+        .section-inner.animate ul li:nth-child(4) { animation: fadeInUp 520ms ease both; animation-delay: 500ms; }
+        .section-inner.animate ul li:nth-child(5) { animation: fadeInUp 520ms ease both; animation-delay: 580ms; }
+        .section-inner.animate ul li:nth-child(6) { animation: fadeInUp 520ms ease both; animation-delay: 660ms; }
+
+        /* Skill cards stagger inside the skills container */
+        .section-inner.animate .skills .skill-card { opacity: 0; transform: translateY(12px); }
+        .section-inner.animate .skills .skill-card:nth-child(1) { animation: fadeInUp 520ms ease both; animation-delay: 260ms; }
+        .section-inner.animate .skills .skill-card:nth-child(2) { animation: fadeInUp 520ms ease both; animation-delay: 340ms; }
+        .section-inner.animate .skills .skill-card:nth-child(3) { animation: fadeInUp 520ms ease both; animation-delay: 420ms; }
+        .section-inner.animate .skills .skill-card:nth-child(4) { animation: fadeInUp 520ms ease both; animation-delay: 500ms; }
+
+        /* Images and other media fade in a bit later */
+        .section-inner.animate img { animation: fadeInUp 520ms ease both; opacity: 0; transform: translateY(12px); animation-delay: 560ms; }
+
+        /* Respect user preference for reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .section-inner.animate { animation: none !important; transform: none !important; opacity: 1 !important; }
+            .section-inner > * { animation: none !important; transform: none !important; opacity: 1 !important; }
+            nav a { transition: none !important; }
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -44,17 +103,39 @@
             const sections = document.querySelectorAll("main section");
             function showTab(idx) {
                 tabs.forEach((tab, i) => tab.classList.toggle("active", i === idx));
-                sections.forEach((sec, i) => sec.classList.toggle("active", i === idx));
+                sections.forEach((sec, i) => {
+                    const inner = sec.querySelector('.section-inner');
+                    if (i === idx) {
+                        sec.classList.add('active');
+                        if (inner) {
+                            // restart animation
+                            inner.classList.remove('animate');
+                            void inner.offsetWidth; // trigger reflow
+                            inner.classList.add('animate');
+                        }
+                    } else {
+                        sec.classList.remove('active');
+                        if (inner) inner.classList.remove('animate');
+                    }
+                });
             }
             tabs.forEach((tab, i) => {
                 tab.addEventListener("click", function(e) {
                     e.preventDefault();
                     showTab(i);
                 });
+                tab.addEventListener("keydown", function(e) {
+                    // allow Enter/Space to activate for accessibility
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        showTab(Array.prototype.indexOf.call(tabs, tab));
+                    }
+                });
             });
             showTab(0);
         });
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <header>
@@ -70,107 +151,113 @@
     </header>
     <main>
         <section>
-            <h2>Über mich</h2>
-            <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten. <br>Ich habe nur grundlegende Kenntnisse in Python, C und C++.<br>HTML lerne ich gerade erst. <br>Willkommen auf meiner persönlichen Website, auf der ich meine Fähigkeiten und Erfolge teile.</p>
-        </section>
-        <section>
-            <h2>Fähigkeiten</h2>
-            <div class="skills">
-                <div class="skill-card">
-                    <strong>Webentwicklung</strong>
-                    <ul>
-                        <li>HTML (Anfänger)</li>
-                        <li>CSS, JavaScript (Anfänger)</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <strong>Programmierung</strong>
-                    <ul>
-                        <li>Python (Grundkenntnisse)</li>
-                        <li>C (Grundkenntnisse)</li>
-                        <li>C++ (Grundkenntnisse)</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <strong>Medienproduktion</strong>
-                    <ul>
-                        <li>Videobearbeitung</li>
-                        <li>Fotografie</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <strong>Grafik/Videodesign</strong>
-                    <ul>
-                        <li>Adobe Premiere Pro</li>
-                        <li>DaVinci Resolve</li>
-                    </ul>
-                </div>
+            <div class="section-inner">
+                <h2>Über mich</h2>
+                <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten. <br>Ich habe nur grundlegende Kenntnisse in Python, C und C++.<br>HTML lerne ich gerade erst. <br>Willkommen auf meiner persönlichen Website, auf der ich meine Fähigkeiten und Erfolge teile.</p>
             </div>
         </section>
         <section>
-            <h2>Projekte</h2>
-            <ul>
-                <li><strong>Portfolio-Website:</strong> Entwurf und Entwicklung einer persönlichen Portfolio-Seite zur Präsentation meiner Arbeiten.</li>
-                <li><strong>Youtube:</strong> Aufnehmen und Schneiden der Videos auf meinen Youtube Kanälen MotoTC und TCG.</li>
-            </ul>
-        </section>
-        <section>
-            <h2>Schule und Berufliche Laufbahn</h2>
-            <ul>
-                <li><strong>HTL1 Lastenstraße:</strong> Fachrichtung Mechatronik mit abgeschlossener Matura.<br>
-                    <div style="text-align:center; margin-top:0.5em;">
-                        <img src="images/logo_htl1lastenstrasse_2022_color_2-1024x470.png" alt="HTL1 Lastenstraße Logo" style="max-width:300px; width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2);">
+            <div class="section-inner">
+                <h2>Fähigkeiten</h2>
+                <div class="skills">
+                    <div class="skill-card">
+                        <strong>Webentwicklung</strong>
+                        <ul>
+                            <li>HTML (Anfänger)</li>
+                            <li>CSS, JavaScript (Anfänger)</li>
+                        </ul>
                     </div>
-                </li>
-            <li><strong>FH Kärnten:</strong> Ein Semester Systems-Engineering absolviert.</li>
-            <div style="text-align:center; margin-top:0.5em; background:#3e3e3e; border-radius:8px; padding:0.5em; box-shadow:0 2px 8px rgba(179,0,0,0.2);">
-                <div style="display:inline-block; background:#3e3e3e; border-radius:8px; padding:10px;">
-                    <img src="images/FH-Kaernten-Logo.png" alt="FH Kärnten Logo" style="max-width:300px; width:100%; height:auto; display:block;">
+                    <div class="skill-card">
+                        <strong>Programmierung</strong>
+                        <ul>
+                            <li>Python (Grundkenntnisse)</li>
+                            <li>C (Grundkenntnisse)</li>
+                            <li>C++ (Grundkenntnisse)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <strong>Medienproduktion</strong>
+                        <ul>
+                            <li>Videobearbeitung</li>
+                            <li>Fotografie</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <strong>Grafik/Videodesign</strong>
+                        <ul>
+                            <li>Adobe Premiere Pro</li>
+                            <li>DaVinci Resolve</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <li><strong>Beruf:</strong> Seit 05.05.2025 bis jetzt Gewährleistungsarbeiten am ÖBB DML-CityJet.</li>
-            </ul>
-                <div style="text-align:center; margin-top:1em;">
-                    <img src="images/jcr_content.jpg" alt="ÖBB DML-Cityjet" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2);">
-                    <div style="color:#aaa; font-size:0.95em; margin-top:0.5em;">ÖBB DML-Cityjet</div>
-                </div>
         </section>
         <section>
-            <h2>Kontakt</h2>
-            <p>
-                Alexander Media<br>
-                9073 Klagenfurt am Wörthersee<br>
-                Tel. Nr.: <a href="tel:06607095527">+43 660 7095527</a><br>
-                E-Mail: <a href="mailto:Alexander.media02@gmail.com">Alexander.media02@gmail.com</a>
-            </p>
-            <!-- Kontaktformular Start -->
-            <form id="kontaktForm" style="background:#181818; padding:1em; border-radius:8px; border:1px solid #b30000; max-width:400px; margin:1em auto 0 auto;">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
-                
-                <label for="email">E-Mail:</label><br>
-                <input type="email" id="email" name="email" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
-                
-                <label for="message">Nachricht:</label><br>
-                <textarea id="message" name="message" rows="4" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"></textarea><br>
-                
-                <!-- Einfaches Captcha -->
-                <label for="captcha">Bitte gib das Ergebnis ein: <span id="captchaQuestion" style="font-weight:bold;"></span></label><br>
-                <small style="color:#aaa;">Hinweis: Dieses Captcha stellt Ihre Menschlichkeit fest.</small><br>
-                <input type="text" id="captcha" name="captcha" required autocomplete="off" style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
-                <span id="captchaError" style="color:#b30000; display:none;">Captcha falsch, bitte erneut versuchen.</span><br>
-                <span id="captchaLock" style="color:#b30000; display:none;"></span><br>
-                
-                <button type="submit" style="background:#b30000; color:#fff; border:none; padding:0.7em 1.5em; border-radius:4px; font-weight:bold; cursor:pointer;">Absenden</button>
-            </form>
-            <div id="bestaetigung" style="display:none; background:#181818; padding:1em; border-radius:8px; border:1px solid #b30000; max-width:400px; margin:1em auto 0 auto;">
-                <h3>Vielen Dank für deine Nachricht!</h3>
-                <p><strong>Name:</strong> <span id="bName"></span></p>
-                <p><strong>E-Mail:</strong> <span id="bEmail"></span></p>
-                <p><strong>Nachricht:</strong><br><span id="bMessage"></span></p>
-                <button id="zurueckBtn" style="background:#b30000; color:#fff; border:none; padding:0.7em 1.5em; border-radius:4px; font-weight:bold; cursor:pointer; margin-top:1em;">Zurück zur Startseite</button>
+            <div class="section-inner">
+                <h2>Projekte</h2>
+                <ul>
+                    <li><strong>Portfolio-Website:</strong> Entwurf und Entwicklung einer persönlichen Portfolio-Seite zur Präsentation meiner Arbeiten.</li>
+                    <li><strong>Youtube:</strong> Aufnehmen und Schneiden der Videos auf meinen Youtube Kanälen MotoTC und TCG.</li>
+                </ul>
             </div>
-            <!-- Kontaktformular Ende -->
+        </section>
+        <section>
+            <div class="section-inner">
+                <h2>Schule und Berufliche Laufbahn</h2>
+                <ul>
+                    <li><strong>HTL1 Lastenstraße:</strong> Fachrichtung Mechatronik mit abgeschlossener Matura.<br>
+                        <div style="text-align:center; margin-top:0.5em;">
+                            <img src="images/logo_htl1lastenstrasse_2022_color_2-1024x470.png" alt="HTL1 Lastenstraße Logo" style="max-width:300px; width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2);">
+                        </div>
+                    </li>
+                <li><strong>FH Kärnten:</strong> Ein Semester Systems-Engineering absolviert.</li>
+                <div style="text-align:center; margin-top:0.5em; background:#3e3e3e; border-radius:8px; padding:0.5em; box-shadow:0 2px 8px rgba(179,0,0,0.2);">
+                    <div style="display:inline-block; background:#3e3e3e; border-radius:8px; padding:10px;">
+                        <img src="images/FH-Kaernten-Logo.png" alt="FH Kärnten Logo" style="max-width:300px; width:100%; height:auto; display:block;">
+                    </div>
+                </div>
+                <li><strong>Beruf:</strong> Seit 05.05.2025 bis jetzt Gewährleistungsarbeiten am ÖBB DML-CityJet.</li>
+                </ul>
+                    <div style="text-align:center; margin-top:1em;">
+                        <img src="images/jcr_content.jpg" alt="ÖBB DML-Cityjet" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2);">
+                        <div style="color:#aaa; font-size:0.95em; margin-top:0.5em;">ÖBB DML-Cityjet</div>
+                    </div>
+            </div>
+        </section>
+        <section>
+            <div class="section-inner">
+                <h2>Kontakt</h2>
+                <p>
+                    Alexander Media<br>
+                    9073 Klagenfurt am Wörthersee<br>
+                    Tel. Nr.: <a href="tel:0660*******">+43 660 *******</a><br>
+                    E-Mail: <a href="mailto:Alexander.*******@gmail.com">Alexander.*******@gmail.com</a>
+                </p>
+                <!-- Kontaktformular Start -->
+                <form id="kontaktForm" style="background:#181818; padding:1em; border-radius:8px; border:1px solid #b30000; max-width:400px; margin:1em auto 0 auto;">
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
+                    
+                    <label for="email">E-Mail:</label><br>
+                    <input type="email" id="email" name="email" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
+                    
+                    <label for="message">Nachricht:</label><br>
+                    <textarea id="message" name="message" rows="4" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"></textarea><br>
+                    
+                    <!-- Google reCAPTCHA -->
+                    <div class="g-recaptcha" data-sitekey="6LehOeErAAAAAPPuOoO-hXQyrmYvvHYTK1UYLdpW"></div>
+                    
+                    <button type="submit" style="background:#b30000; color:#fff; border:none; padding:0.7em 1.5em; border-radius:4px; font-weight:bold; cursor:pointer;">Absenden</button>
+                </form>
+                <div id="bestaetigung" style="display:none; background:#181818; padding:1em; border-radius:8px; border:1px solid #b30000; max-width:400px; margin:1em auto 0 auto;">
+                    <h3>Vielen Dank für deine Nachricht!</h3>
+                    <p><strong>Name:</strong> <span id="bName"></span></p>
+                    <p><strong>E-Mail:</strong> <span id="bEmail"></span></p>
+                    <p><strong>Nachricht:</strong><br><span id="bMessage"></span></p>
+                    <button id="zurueckBtn" style="background:#b30000; color:#fff; border:none; padding:0.7em 1.5em; border-radius:4px; font-weight:bold; cursor:pointer; margin-top:1em;">Zurück zur Startseite</button>
+                </div>
+                <!-- Kontaktformular Ende -->
+            </div>
         </section>
         
     </main>
@@ -178,92 +265,91 @@
         &copy; 2025 Alexander Media
     </footer>
     <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Einfaches Captcha generieren
-                let captchaA = Math.floor(Math.random() * 10) + 1;
-                let captchaB = Math.floor(Math.random() * 10) + 1;
-                let captchaResult = captchaA + captchaB;
-                document.getElementById("captchaQuestion").textContent = captchaA + " + " + captchaB + " = ?";
-                const captchaError = document.getElementById("captchaError");
-                const captchaLock = document.getElementById("captchaLock");
-                const captchaInputField = document.getElementById("captcha");
-                let failCount = 0;
-                let lockTimeout = null;
+        document.addEventListener("DOMContentLoaded", function() {
+            const kontaktForm = document.getElementById("kontaktForm");
+            kontaktForm.addEventListener("submit", function(e) {
+                e.preventDefault();
 
-                // Kontaktformular Bestätigung
-                const kontaktForm = document.getElementById("kontaktForm");
-                const bestaetigung = document.getElementById("bestaetigung");
-                kontaktForm.addEventListener("submit", function(e) {
-                    e.preventDefault();
-                    // Wenn gesperrt, nichts tun
-                    if (captchaInputField.disabled) return;
+                // Check if reCAPTCHA is completed
+                const recaptchaResponse = document.querySelector(".g-recaptcha-response").value;
+                if (!recaptchaResponse) {
+                    alert("Bitte bestätigen Sie, dass Sie kein Roboter sind.");
+                    return;
+                }
 
-                    // Captcha prüfen
-                    const captchaInput = captchaInputField.value.trim();
-                    if (parseInt(captchaInput, 10) !== captchaResult) {
-                        failCount++;
-                        captchaError.style.display = "inline";
-                        captchaInputField.value = "";
-                        captchaInputField.focus();
-                        // Neues Captcha generieren
-                        captchaA = Math.floor(Math.random() * 10) + 1;
-                        captchaB = Math.floor(Math.random() * 10) + 1;
-                        captchaResult = captchaA + captchaB;
-                        document.getElementById("captchaQuestion").textContent = captchaA + " + " + captchaB + " = ?";
-                        // Nach 3 Fehlversuchen sperren
-                        if (failCount >= 3) {
-                            captchaInputField.disabled = true;
-                            captchaLock.style.display = "inline";
-                            let countdown = 10;
-                            captchaLock.textContent = "Zu viele Fehlversuche. Bitte warte " + countdown + " Sekunden...";
-                            lockTimeout = setInterval(function() {
-                                countdown--;
-                                captchaLock.textContent = "Zu viele Fehlversuche. Bitte warte " + countdown + " Sekunden...";
-                                if (countdown <= 0) {
-                                    clearInterval(lockTimeout);
-                                    captchaInputField.disabled = false;
-                                    captchaLock.style.display = "none";
-                                    captchaError.style.display = "none";
-                                    failCount = 0;
-                                }
-                            }, 1000);
-                        }
-                        return;
-                    }
+                // Proceed with form submission logic
+                console.log("reCAPTCHA erfolgreich abgeschlossen.");
+
+                // Prepare submission data
+                const submission = {
+                    name: kontaktForm.name.value.trim(),
+                    email: kontaktForm.email.value.trim(),
+                    message: kontaktForm.message.value.trim(),
+                    time: new Date().toISOString()
+                };
+                // Save to localStorage (append)
+                try {
+                    const key = 'kontaktSubmissions';
+                    const prev = JSON.parse(localStorage.getItem(key) || '[]');
+                    prev.push(submission);
+                    localStorage.setItem(key, JSON.stringify(prev));
+                } catch (err) {
+                    // ignore storage errors
+                    console.warn('Could not save submission to localStorage', err);
+                }
+
+                // Show confirmation UI
+                document.getElementById("bName").textContent = submission.name;
+                document.getElementById("bEmail").textContent = submission.email;
+                document.getElementById("bMessage").textContent = submission.message;
+                kontaktForm.style.display = "none";
+                bestaetigung.style.display = "block";
+
+                // Build mailto link to open user's email client with prefilled content
+                let recipient = '';
+                const mailAnchor = document.querySelector('a[href^="mailto:"]');
+                if (mailAnchor) {
+                    recipient = mailAnchor.getAttribute('href').replace(/^mailto:/i, '');
+                }
+                const subject = 'Kontaktformular: ' + (submission.name || 'Neue Nachricht');
+                const bodyLines = [];
+                bodyLines.push('Name: ' + submission.name);
+                bodyLines.push('E-Mail: ' + submission.email);
+                bodyLines.push('');
+                bodyLines.push('Nachricht:');
+                bodyLines.push(submission.message);
+                bodyLines.push('');
+                bodyLines.push('Gesendet von: Alexander Media Website');
+                const body = bodyLines.join('\n');
+                const mailtoLink = (recipient ? ('mailto:' + recipient) : 'mailto:') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                // Open mail client (this will not send automatically — user must confirm/send)
+                window.location.href = mailtoLink;
+            });
+
+            // Zurück-Button zur Startseite
+            const zurueckBtn = document.getElementById("zurueckBtn");
+            if (zurueckBtn) {
+                zurueckBtn.addEventListener("click", function() {
+                    // Tab auf "Über mich" (Startseite) umschalten
+                    const tabs = document.querySelectorAll("nav a");
+                    // Trigger the first tab's click so the same animation runs
+                    if (tabs && tabs[0]) tabs[0].click();
+                    bestaetigung.style.display = "none";
+                    kontaktForm.style.display = "block";
+                    kontaktForm.reset();
+                    // Neues Captcha generieren
+                    captchaA = Math.floor(Math.random() * 10) + 1;
+                    captchaB = Math.floor(Math.random() * 10) + 1;
+                    captchaResult = captchaA + captchaB;
+                    document.getElementById("captchaQuestion").textContent = captchaA + " + " + captchaB + " = ?";
                     captchaError.style.display = "none";
                     captchaLock.style.display = "none";
-                    document.getElementById("bName").textContent = kontaktForm.name.value;
-                    document.getElementById("bEmail").textContent = kontaktForm.email.value;
-                    document.getElementById("bMessage").textContent = kontaktForm.message.value;
-                    kontaktForm.style.display = "none";
-                    bestaetigung.style.display = "block";
+                    captchaInputField.disabled = false;
+                    failCount = 0;
+                    if (lockTimeout) clearInterval(lockTimeout);
                 });
-
-                // Zurück-Button zur Startseite
-                const zurueckBtn = document.getElementById("zurueckBtn");
-                if (zurueckBtn) {
-                    zurueckBtn.addEventListener("click", function() {
-                        // Tab auf "Über mich" (Startseite) umschalten
-                        const tabs = document.querySelectorAll("nav a");
-                        const sections = document.querySelectorAll("main section");
-                        tabs.forEach((tab, i) => tab.classList.toggle("active", i === 0));
-                        sections.forEach((sec, i) => sec.classList.toggle("active", i === 0));
-                        bestaetigung.style.display = "none";
-                        kontaktForm.style.display = "block";
-                        kontaktForm.reset();
-                        // Neues Captcha generieren
-                        captchaA = Math.floor(Math.random() * 10) + 1;
-                        captchaB = Math.floor(Math.random() * 10) + 1;
-                        captchaResult = captchaA + captchaB;
-                        document.getElementById("captchaQuestion").textContent = captchaA + " + " + captchaB + " = ?";
-                        captchaError.style.display = "none";
-                        captchaLock.style.display = "none";
-                        captchaInputField.disabled = false;
-                        failCount = 0;
-                        if (lockTimeout) clearInterval(lockTimeout);
-                    });
-                }
-            });
+            }
+        });
     </script>
 </body>
 </html>
