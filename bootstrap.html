@@ -1,169 +1,230 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Alexander Media</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <style>
-    body { background:#181818; color:#f4f4f4; font-family: Arial, sans-serif; }
-    header { background:#111; color:#fff; padding:1.5em 0 0.5em; text-align:center; }
-    .nav-tabs { justify-content:center; background:#222; border-bottom:2px solid #b30000; }
-    .nav-tabs .nav-link { color:#fff; font-weight:bold; border:none; border-radius:4px 4px 0 0; transition: transform .18s ease, box-shadow .18s ease; }
-    .nav-tabs .nav-link:hover { transform:scale(1.08); box-shadow:0 6px 18px rgba(179,0,0,0.25); }
-    .nav-tabs .nav-link.active { background:#b30000; color:#fff; }
-    .tab-content { background:#222; max-width:800px; margin:2em auto; padding:2em; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2); }
-    h2 { color:#b30000; }
-    h1 { color:#b30000; }
-    .skills { display:flex; flex-wrap:wrap; gap:1em; }
-    .skill-card { background:#181818; padding:1em; border-radius:6px; flex:1 1 200px; border:1px solid #b30000; }
-    footer { text-align:center; padding:1em; background:#111; color:#888; margin-top:2em; }
+    <meta charset="UTF-8">
+    <title>Alexander Media</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; background: #181818; color: #f4f4f4; overflow-x:hidden; }
+        header { background: #111; color:#fff; padding:1.5em 0 0.5em; text-align:center; position:relative; overflow:hidden; }
+        header h1 {
+            color: #b30000;
+            text-shadow: 0 0 8px rgba(179,0,0,0.6), 0 0 12px rgba(179,0,0,0.4);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 8px rgba(179,0,0,0.6), 0 0 12px rgba(179,0,0,0.4); }
+            to { text-shadow: 0 0 18px rgba(255,0,0,0.9), 0 0 28px rgba(179,0,0,0.6); }
+        }
 
-    .fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
-    .fade-in.show { opacity:1; transform:translateY(0); }
+        nav { display:flex; justify-content:center; gap:1em; background:#222; border-bottom:2px solid #b30000; flex-wrap:wrap; }
+        nav a { color:#fff; text-decoration:none; font-weight:bold; padding:0.5em 1em; border-radius:4px 4px 0 0; transition: transform .18s ease, box-shadow .18s ease; }
+        nav a.active, nav a:hover { background:#b30000; color:#fff; transform:scale(1.08); box-shadow:0 6px 18px rgba(179,0,0,0.25); }
 
-    .g-recaptcha { display:flex; justify-content:center; margin-bottom:1em; }
-  </style>
+        main { max-width:800px; margin:2em auto; background:#222; padding:2em; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2); }
+
+        h2 { margin-top:0; color:#b30000; }
+        ul { list-style:none; padding:0; }
+        li { margin:0.5em 0; }
+        .skills { display:flex; flex-wrap:wrap; gap:1em; }
+        .skill-card { background:#181818; padding:1em; border-radius:6px; flex:1 1 200px; border:1px solid #b30000; }
+
+        footer { text-align:center; padding:1em 0; color:#888; background:#111; margin-top:2em; }
+
+        .section-inner { opacity:0; transform:translateY(12px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .section-inner.show { opacity:1; transform:translateY(0); }
+
+        img, iframe { max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(179,0,0,0.2); }
+
+        .g-recaptcha { display:flex; justify-content:center; margin-bottom:1em; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .section-inner { transition:none; transform:none; opacity:1 !important; }
+            nav a { transition:none; }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Alexander Media</h1>
-    <p>Präsentation meiner persönlichen Fähigkeiten & Projekte</p>
-  </header>
+    <header>
+        <h1>Alexander Media</h1>
+        <nav>
+            <a href="#">Über mich</a>
+            <a href="#">Fähigkeiten</a>
+            <a href="#">Projekte</a>
+            <a href="#">Schule und Berufliche Laufbahn</a>
+            <a href="#">Kontakt</a>
+        </nav>
+        <p>Präsentation meiner persönlichen Fähigkeiten & Projekte</p>
+    </header>
+    <main>
+        <section>
+            <div class="section-inner">
+                <h2>Über mich</h2>
+                <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten. <br>Ich habe nur grundlegende Kenntnisse in Python, C und C++.<br>HTML lerne ich gerade erst. <br>Willkommen auf meiner persönlichen Website, auf der ich meine Fähigkeiten und Erfolge teile.</p>
+            </div>
+        </section>
+        <section>
+            <div class="section-inner">
+                <h2>Fähigkeiten</h2>
+                <div class="skills">
+                    <div class="skill-card">
+                        <strong>Webentwicklung</strong>
+                        <ul>
+                            <li>HTML (Anfänger)</li>
+                            <li>CSS, JavaScript (Anfänger)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <strong>Programmierung</strong>
+                        <ul>
+                            <li>Python (Grundkenntnisse)</li>
+                            <li>C (Grundkenntnisse)</li>
+                            <li>C++ (Grundkenntnisse)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <strong>Medienproduktion</strong>
+                        <ul>
+                            <li>Videobearbeitung</li>
+                            <li>Fotografie</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <strong>Grafik/Videodesign</strong>
+                        <ul>
+                            <li>Adobe Premiere Pro</li>
+                            <li>DaVinci Resolve</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="section-inner">
+                <h2>Projekte</h2>
+                <ul>
+                    <li><strong>Portfolio-Website:</strong> Entwurf und Entwicklung einer persönlichen Portfolio-Seite zur Präsentation meiner Arbeiten.</li>
+                    <li><strong>Youtube:</strong> Aufnehmen und Schneiden der Videos auf meinen Youtube Kanälen MotoTC und TCG.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <div class="section-inner">
+                <h2>Schule und Berufliche Laufbahn</h2>
+                <ul>
+                    <li><strong>HTL1 Lastenstraße:</strong> Fachrichtung Mechatronik mit abgeschlossener Matura.<br>
+                        <div style="text-align:center; margin-top:0.5em;">
+                            <img src="images/logo_htl1lastenstrasse_2022_color_2-1024x470.png" alt="HTL1 Lastenstraße Logo">
+                        </div>
+                    </li>
+                    <li><strong>FH Kärnten:</strong> Ein Semester Systems-Engineering absolviert.<br>
+                        <div style="text-align:center; margin-top:0.5em; background:#3e3e3e; border-radius:8px; padding:0.5em;">
+                            <img src="images/FH-Kaernten-Logo.png" alt="FH Kärnten Logo">
+                        </div>
+                    </li>
+                    <li><strong>Beruf:</strong> Seit 05.05.2025 bis jetzt Gewährleistungsarbeiten am ÖBB DML-CityJet.</li>
+                </ul>
+                <div style="text-align:center; margin-top:1em;">
+                    <img src="images/jcr_content.jpg" alt="ÖBB DML-Cityjet">
+                    <div style="color:#aaa; font-size:0.95em; margin-top:0.5em;">ÖBB DML-Cityjet</div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="section-inner">
+                <h2>Kontakt</h2>
+                <p>
+                    Alexander Media<br>
+                    9073 Klagenfurt am Wörthersee<br>
+                    Tel. Nr.: <a href="tel:0660*******">+43 660 *******</a><br>
+                    E-Mail: <a href="mailto:Alexander.*******@gmail.com">Alexander.*******@gmail.com</a>
+                </p>
+                <form id="kontaktForm" style="background:#181818; padding:1em; border-radius:8px; border:1px solid #b30000; max-width:400px; margin:1em auto 0 auto;">
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
+                    <label for="email">E-Mail:</label><br>
+                    <input type="email" id="email" name="email" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"><br>
+                    <label for="message">Nachricht:</label><br>
+                    <textarea id="message" name="message" rows="4" required style="width:100%; padding:0.1em; margin-bottom:1em; border-radius:4px; border:1px solid #b30000; background:#222; color:#f4f4f4;"></textarea><br>
+                    <div class="g-recaptcha" data-sitekey="6LehOeErAAAAAPPuOoO-hXQyrmYvvHYTK1UYLdpW"></div>
+                    <button type="submit" style="background:#b30000; color:#fff; border:none; padding:0.7em 1.5em; border-radius:4px; font-weight:bold; cursor:pointer;">Absenden</button>
+                </form>
+                <div id="bestaetigung" style="display:none; background:#181818; padding:1em; border-radius:8px; border:1px solid #b30000; max-width:400px; margin:1em auto 0 auto;">
+                    <h3>Vielen Dank für deine Nachricht!</h3>
+                    <p><strong>Name:</strong> <span id="bName"></span></p>
+                    <p><strong>E-Mail:</strong> <span id="bEmail"></span></p>
+                    <p><strong>Nachricht:</strong><br><span id="bMessage"></span></p>
+                    <button id="zurueckBtn" style="background:#b30000; color:#fff; border:none; padding:0.7em 1.5em; border-radius:4px; font-weight:bold; cursor:pointer; margin-top:1em;">Zurück zur Startseite</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>&copy; 2025 Alexander Media</footer>
 
-  <ul class="nav nav-tabs" id="mainTabs" role="tablist">
-    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#ueber">Über mich</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#skills">Fähigkeiten</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#projekte">Projekte</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#laufbahn">Schule & Laufbahn</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#kontakt">Kontakt</a></li>
-  </ul>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tabs = document.querySelectorAll("nav a");
+            const sections = document.querySelectorAll("main section");
 
-  <div class="tab-content">
-    <div class="tab-pane fade show active fade-in" id="ueber">
-      <h2>Über mich</h2>
-      <p>Hallo! Ich bin Alexander, begeistert von Medien, Technologie und kreativen Projekten.<br>Ich habe grundlegende Kenntnisse in Python, C und C++.<br>HTML lerne ich gerade erst.<br>Willkommen auf meiner persönlichen Website, auf der ich meine Fähigkeiten und Erfolge teile.</p>
-    </div>
+            function showTab(idx){
+                tabs.forEach((tab,i)=>tab.classList.toggle("active",i===idx));
+                sections.forEach((sec,i)=>{
+                    const inner = sec.querySelector('.section-inner');
+                    if(i===idx){
+                        sec.style.display="block";
+                        if(inner){ inner.classList.add('show'); }
+                    } else {
+                        sec.style.display="none";
+                        if(inner) inner.classList.remove('show');
+                    }
+                });
+            }
 
-    <div class="tab-pane fade fade-in" id="skills">
-      <h2>Fähigkeiten</h2>
-      <div class="skills">
-        <div class="skill-card"><strong>Webentwicklung</strong><ul><li>HTML (Anfänger)</li><li>CSS, JavaScript (Anfänger)</li></ul></div>
-        <div class="skill-card"><strong>Programmierung</strong><ul><li>Python (Grundkenntnisse)</li><li>C (Grundkenntnisse)</li><li>C++ (Grundkenntnisse)</li></ul></div>
-        <div class="skill-card"><strong>Medienproduktion</strong><ul><li>Videobearbeitung</li><li>Fotografie</li></ul></div>
-        <div class="skill-card"><strong>Grafik/Videodesign</strong><ul><li>Adobe Premiere Pro</li><li>DaVinci Resolve</li></ul></div>
-      </div>
-    </div>
+            tabs.forEach((tab,i)=>{
+                tab.addEventListener("click", function(e){ e.preventDefault(); showTab(i); });
+                tab.addEventListener("keydown", function(e){
+                    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showTab(i);}
+                });
+            });
+            showTab(0);
 
-    <div class="tab-pane fade fade-in" id="projekte">
-      <h2>Projekte</h2>
-      <ul>
-        <li><strong>Portfolio-Website:</strong> Entwurf und Entwicklung einer persönlichen Portfolio-Seite.</li>
-        <li><strong>Youtube:</strong> Aufnehmen und Schneiden der Videos auf meinen Youtube Kanälen MotoTC und TCG.</li>
-      </ul>
-    </div>
+            // Kontaktformular-Logik
+            const kontaktForm=document.getElementById("kontaktForm");
+            kontaktForm.addEventListener("submit", function(e){
+                e.preventDefault();
+                const recaptchaResponse=document.querySelector(".g-recaptcha-response").value;
+                if(!recaptchaResponse){ alert("Bitte bestätigen Sie, dass Sie kein Roboter sind."); return; }
 
-    <div class="tab-pane fade fade-in" id="laufbahn">
-      <h2>Schule und Berufliche Laufbahn</h2>
-      <ul>
-        <li><strong>HTL1 Lastenstraße:</strong> Fachrichtung Mechatronik mit abgeschlossener Matura.<br>
-          <div class="text-center mt-2">
-            <img src="images/logo_htl1lastenstrasse_2022_color_2-1024x470.png" alt="HTL1 Lastenstraße Logo" class="img-fluid rounded shadow" style="max-width:300px;">
-          </div>
-        </li>
-        <li><strong>FH Kärnten:</strong> Ein Semester Systems-Engineering absolviert.</li>
-        <div class="text-center mt-2 bg-secondary rounded p-2 shadow">
-          <img src="images/FH-Kaernten-Logo.png" alt="FH Kärnten Logo" class="img-fluid rounded" style="max-width:300px;">
-        </div>
-        <li><strong>Beruf:</strong> Seit 05.05.2025 bis jetzt Gewährleistungsarbeiten am ÖBB DML-CityJet.</li>
-      </ul>
-      <div class="text-center mt-3">
-        <img src="images/jcr_content.jpg" alt="ÖBB DML-Cityjet" class="img-fluid rounded shadow">
-        <div class="text-secondary mt-2">ÖBB DML-Cityjet</div>
-      </div>
-    </div>
+                const submission={
+                    name: kontaktForm.name.value.trim(),
+                    email: kontaktForm.email.value.trim(),
+                    message: kontaktForm.message.value.trim(),
+                    time: new Date().toISOString()
+                };
+                try{
+                    const key='kontaktSubmissions';
+                    const prev=JSON.parse(localStorage.getItem(key)||'[]');
+                    prev.push(submission);
+                    localStorage.setItem(key, JSON.stringify(prev));
+                } catch(err){ console.warn(err); }
 
-    <div class="tab-pane fade fade-in" id="kontakt">
-      <h2>Kontakt</h2>
-      <p>Alexander Media<br>9073 Klagenfurt am Wörthersee<br>Tel. Nr.: <a href="tel:0660*******">+43 660 *******</a><br>E-Mail: <a href="mailto:Alexander.*******@gmail.com">Alexander.*******@gmail.com</a></p>
+                document.getElementById("bName").textContent=submission.name;
+                document.getElementById("bEmail").textContent=submission.email;
+                document.getElementById("bMessage").textContent=submission.message;
+                kontaktForm.style.display="none";
+                document.getElementById("bestaetigung").style.display="block";
+            });
 
-      <form id="kontaktForm" class="p-3 rounded" style="background:#181818; border:1px solid #b30000; max-width:400px; margin:auto;">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" class="form-control mb-3" required style="background:#222; color:#fff; border:1px solid #b30000;">
-
-        <label for="email">E-Mail:</label>
-        <input type="email" id="email" name="email" class="form-control mb-3" required style="background:#222; color:#fff; border:1px solid #b30000;">
-
-        <label for="message">Nachricht:</label>
-        <textarea id="message" name="message" rows="4" class="form-control mb-3" required style="background:#222; color:#fff; border:1px solid #b30000;"></textarea>
-
-        <div class="g-recaptcha" data-sitekey="6LehOeErAAAAAPPuOoO-hXQyrmYvvHYTK1UYLdpW"></div>
-
-        <button type="submit" class="btn w-100" style="background:#b30000; color:#fff; font-weight:bold;">Absenden</button>
-      </form>
-
-      <div id="bestaetigung" class="p-3 rounded mt-3" style="display:none; background:#181818; border:1px solid #b30000; max-width:400px; margin:auto;">
-        <h3>Vielen Dank für deine Nachricht!</h3>
-        <p><strong>Name:</strong> <span id="bName"></span></p>
-        <p><strong>E-Mail:</strong> <span id="bEmail"></span></p>
-        <p><strong>Nachricht:</strong><br><span id="bMessage"></span></p>
-        <button id="zurueckBtn" class="btn w-100" style="background:#b30000; color:#fff; font-weight:bold;">Zurück zur Startseite</button>
-      </div>
-    </div>
-  </div>
-
-  <footer>&copy; 2025 Alexander Media</footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Intersection observer for fade-in animations
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-      });
-    }, { threshold: 0.2 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // Kontaktformular Logik
-    document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('kontaktForm');
-      const bestaetigung = document.getElementById('bestaetigung');
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const recaptchaResponse = document.querySelector('.g-recaptcha-response').value;
-        if (!recaptchaResponse) {
-          alert('Bitte bestätigen Sie, dass Sie kein Roboter sind.');
-          return;
-        }
-        const submission = {
-          name: form.name.value.trim(),
-          email: form.email.value.trim(),
-          message: form.message.value.trim(),
-          time: new Date().toISOString()
-        };
-        localStorage.setItem('kontaktSubmissions', JSON.stringify([submission]));
-        document.getElementById('bName').textContent = submission.name;
-        document.getElementById('bEmail').textContent = submission.email;
-        document.getElementById('bMessage').textContent = submission.message;
-        form.style.display = 'none';
-        bestaetigung.style.display = 'block';
-
-        // Mailto-Link
-        const recipient = 'Alexander.*******@gmail.com';
-        const subject = 'Kontaktformular: ' + submission.name;
-        const body = `Name: ${submission.name}%0AEmail: ${submission.email}%0A%0ANachricht:%0A${submission.message}`;
-        window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${body}`;
-      });
-
-      document.getElementById('zurueckBtn').addEventListener('click', function() {
-        form.style.display = 'block';
-        bestaetigung.style.display = 'none';
-        form.reset();
-        const firstTab = new bootstrap.Tab(document.querySelector('#mainTabs a[href="#ueber"]'));
-        firstTab.show();
-      });
-    });
-  </script>
+            document.getElementById("zurueckBtn").addEventListener("click", function(){
+                document.getElementById("bestaetigung").style.display="none";
+                kontaktForm.style.display="block";
+                kontaktForm.reset();
+                showTab(0);
+            });
+        });
+    </script>
 </body>
 </html>
